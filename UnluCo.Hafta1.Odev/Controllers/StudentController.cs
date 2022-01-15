@@ -27,6 +27,35 @@ namespace UnluCo.Hafta1.Odev.Controllers
             return Ok(studentList);
 
         }
+        [HttpGet("{colon}/{orderby}")]
+        public IActionResult GetSchools(string colon = "id", string orderby = "asc")
+        {
+            var studentList = StudentList;
+            if (colon.ToLower() == "id" && orderby.ToLower() == "asc")
+            {
+                studentList = StudentList.OrderBy(x => x.Id).ToList();
+            }
+            else if (colon.ToLower() == "id" && orderby.ToLower() == "desc")
+            {
+                studentList = StudentList.OrderByDescending(x => x.Id).ToList();
+            }
+            else if (colon.ToLower() == "name" && orderby.ToLower() == "asc")
+            {
+                studentList = StudentList.OrderBy(x => x.Name).ToList();
+            }
+            else if (colon.ToLower() == "name" && orderby.ToLower() == "desc")
+            {
+                studentList = StudentList.OrderByDescending(x => x.Name).ToList();
+            }
+            else
+            {
+                BadRequest("Yanlış sıralama tercihleri yapılıdı.");
+            }
+
+
+            return Ok(studentList);
+
+        }
 
         [HttpGet("id")]
         public IActionResult GetSchoolById(int id)
